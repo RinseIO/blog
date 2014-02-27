@@ -1,7 +1,6 @@
+import json
 from django.db import models
-
-
-
+from django.http import HttpResponse
 
 
 class UserPermission(object):
@@ -18,6 +17,21 @@ class UserModel(object):
         self.email = 'kelp@rinse.io'
 
 
+# -----------------------------------------------
+# response
+# -----------------------------------------------
+class JsonResponse(HttpResponse):
+    def __init__(self, content, *args, **kwargs):
+        if 'dict' in dir(content) and callable(content.dict):
+            dict_content = content.dict()
+        else:
+            dict_content = content
+        super(JsonResponse, self).__init__(json.dumps(dict_content), content_type='application/json', *args, **kwargs)
+
+
+# -----------------------------------------------
+# error
+# -----------------------------------------------
 class ErrorViewModel(dict):
     def __init__(self, *args, **kw):
         super(ErrorViewModel, self).__init__(*args, **kw)

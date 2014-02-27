@@ -1,16 +1,24 @@
 from django import http
 from django.template import loader, RequestContext, Context
 from django.template.response import TemplateResponse
-from application.models import ErrorViewModel
+from application.models import *
 
 
 # -----------------------------------------------
 # base view
 # -----------------------------------------------
 def base_view(request):
-    import logging
-    logging.error(type(request.user))
     return TemplateResponse(request, 'base.html')
+
+
+# -----------------------------------------------
+# post views
+# -----------------------------------------------
+def get_posts(request):
+    return JsonResponse({})
+
+def add_post(request):
+    return JsonResponse({})
 
 
 # -----------------------------------------------

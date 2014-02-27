@@ -3,6 +3,12 @@ from application.views import *
 from application.exceptions import *
 
 
+# error handlers
+handler403 = permission_denied
+handler404 = page_not_found
+handler500 = server_error
+
+
 # methods
 def dispatch(**dispatches):
     def wraps(request, *args, **kwargs):
@@ -24,8 +30,10 @@ def api_dispatch(**dispatches):
             return e.view(request, *args, **kwargs)
     return wraps
 
+
+# routers
 urlpatterns = patterns('',
     url(r'^$', dispatch(GET=base_view)),
-    # url(r'^posts$', api_dispatch(GET=get_posts, POST=add_post)),
+    url(r'^posts$', api_dispatch(GET=get_posts, POST=add_post)),
     # url(r'^posts/(?P<post_id>\d+)$', api_dispatch(DELETE=delete_post)),
 )

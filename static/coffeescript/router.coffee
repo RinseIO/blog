@@ -20,7 +20,7 @@ angular.module 'app.router', ['app.provider', 'app.controller', 'ui.router']
             ]
         views:
             content:
-                templateUrl: '/views/content/posts.html'
+                templateUrl: '/static/view/content/posts.html'
                 controller: 'PostsController'
 
     # ----------------------------------------
@@ -34,7 +34,7 @@ angular.module 'app.router', ['app.provider', 'app.controller', 'ui.router']
             ]
         views:
             content:
-                templateUrl: '/views/content/posts.html'
+                templateUrl: '/static/view/content/posts.html'
                 controller: 'PostsController'
 ]
 

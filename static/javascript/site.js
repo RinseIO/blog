@@ -57,7 +57,7 @@
         scope: true,
         restrict: 'E',
         replace: true,
-        templateUrl: '/views/modal/post.html',
+        templateUrl: '/static/view/modal/post.html',
         link: function(scope, element) {
           var $app, $timeout, $validator;
           $app = $injector.get('$app');
@@ -94,7 +94,7 @@
         scope: true,
         restrict: 'E',
         replace: true,
-        templateUrl: '/views/modal/login_required.html',
+        templateUrl: '/static/view/modal/login_required.html',
         link: function(scope, element) {
           var $app;
           $app = $injector.get('$app');
@@ -360,7 +360,7 @@
         },
         views: {
           content: {
-            templateUrl: '/views/content/posts.html',
+            templateUrl: '/static/view/content/posts.html',
             controller: 'PostsController'
           }
         }
@@ -376,7 +376,7 @@
         },
         views: {
           content: {
-            templateUrl: '/views/content/posts.html',
+            templateUrl: '/static/view/content/posts.html',
             controller: 'PostsController'
           }
         }

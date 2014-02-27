@@ -10,7 +10,7 @@ angular.module 'app.directive', ['app.controller']
     scope: yes
     restrict: 'E'
     replace: yes
-    templateUrl: '/views/modal/post.html'
+    templateUrl: '/static/view/modal/post.html'
     link: (scope, element) ->
         # providers
         $app = $injector.get '$app'
@@ -41,7 +41,7 @@ angular.module 'app.directive', ['app.controller']
     scope: yes
     restrict: 'E'
     replace: yes
-    templateUrl: '/views/modal/login_required.html'
+    templateUrl: '/static/view/modal/login_required.html'
     link: (scope, element) ->
         # providers
         $app = $injector.get '$app'
