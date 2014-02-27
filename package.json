@@ -1,0 +1,28 @@
+{
+  "name": "blog",
+  "version": "0.0.0",
+  "description": "",
+  "homepage": "https://github.com/RinseIO/blog",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/RinseIO/blog.git"
+  },
+  "keywords": [
+    "Django"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/RinseIO/blog/issues"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.2",
+    "grunt-contrib-coffee": "^0.10.1",
+    "grunt-contrib-watch": "^0.5.3",
+    "grunt-contrib-compass": "^0.7.2"
+  }
+}
