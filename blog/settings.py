@@ -66,7 +66,9 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
+COUCHDB_DATABASES = {
+    'url': 'http://127.0.0.1:5984'
+}
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

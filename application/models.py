@@ -1,6 +1,8 @@
 import json
-from django.db import models
+from datetime import datetime
 from django.http import HttpResponse
+from couchdbkit import *
+from application.utils import get_db_url
 
 
 class UserPermission(object):
@@ -15,6 +17,26 @@ class UserModel(object):
         self.permission = UserPermission.root
         self.name = 'Kelp'
         self.email = 'kelp@rinse.io'
+
+
+# -----------------------------------------------
+# couch db documents
+# -----------------------------------------------
+server = Server(uri=get_db_url())
+db = server.get_or_create_db('blog')
+class PostModel(Document):
+    title = StringProperty()
+    content = StringProperty()
+    create_time = DateTimeProperty(default=datetime.utcnow)
+
+    def dict(self):
+        return {
+            'id': self._id,
+            'title': self.title,
+            'content': self.content,
+            'create_time': self.create_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+        }
+PostModel.set_db(db)
 
 
 # -----------------------------------------------

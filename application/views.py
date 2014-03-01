@@ -15,10 +15,16 @@ def base_view(request):
 # post views
 # -----------------------------------------------
 def get_posts(request):
+    
     return JsonResponse({})
 
 def add_post(request):
-    return JsonResponse({})
+    model = json.loads(request.body)
+    post = PostModel()
+    post.title = model.get('title')
+    post.content = model.get('content')
+    post.save()
+    return JsonResponse(post.dict())
 
 
 # -----------------------------------------------
