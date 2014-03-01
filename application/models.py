@@ -1,7 +1,8 @@
-import json
+import json, os
 from datetime import datetime
 from django.http import HttpResponse
 from couchdbkit import *
+from couchdbkit.designer import push
 from application.utils import get_db_url
 
 
@@ -24,6 +25,7 @@ class UserModel(object):
 # -----------------------------------------------
 server = Server(uri=get_db_url())
 db = server.get_or_create_db('blog')
+push(os.path.join(os.path.dirname(__file__), '_design', 'posts'), db)
 class PostModel(Document):
     title = StringProperty()
     content = StringProperty()

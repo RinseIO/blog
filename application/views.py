@@ -15,7 +15,11 @@ def base_view(request):
 # post views
 # -----------------------------------------------
 def get_posts(request):
-    
+    import logging
+    posts = PostModel.view('posts/all')
+    logging.error(posts.__dict__)
+    for post in posts.all():
+        logging.error('title: %s' % post.title)
     return JsonResponse({})
 
 def add_post(request):
