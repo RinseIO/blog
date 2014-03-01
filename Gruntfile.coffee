@@ -27,10 +27,25 @@ module.exports = (grunt) ->
                 options:
                     spawn: no
 
+        shell:
+            pythonServer:
+                options:
+                    stdin: no
+                    stdout: yes
+                    stderr: yes
+                command: 'python manage.py runserver 0.0.0.0:8000'
+
+        concurrent:
+            dev:
+                tasks: ['shell:pythonServer', 'watch']
+                options:
+                    logConcurrentOutput: yes
+                    limit: @tasks.length
+
     # -----------------------------------
     # register task
     # -----------------------------------
-    grunt.registerTask 'dev', ['watch']
+    grunt.registerTask 'dev', ['concurrent:dev']
 
     # -----------------------------------
     # Plugins
@@ -38,3 +53,5 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-compass'
     grunt.loadNpmTasks 'grunt-contrib-coffee'
     grunt.loadNpmTasks 'grunt-contrib-watch'
+    grunt.loadNpmTasks 'grunt-shell'
+    grunt.loadNpmTasks 'grunt-concurrent'
