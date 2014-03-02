@@ -12,14 +12,14 @@
           $app.modal.loginRequired.show();
           return;
         }
-        return $app.modal.post.showCreate({
+        return $app.modal.post.show({
           submitCallback: function(model) {
             return $validator.validate(model.scope).success(function() {
               return $app.store.addPost(model.title, model.content).success(function() {
                 $state.go($state.$current, null, {
                   reload: true
                 });
-                return $app.modal.post.hideCreate();
+                return $app.modal.post.hide();
               });
             });
           }
@@ -28,17 +28,43 @@
     }
   ]).controller('PostsController', [
     '$scope', '$injector', 'posts', function($scope, $injector, posts) {
-      var $app, $state;
+      var $app, $state, $validator;
       $app = $injector.get('$app');
       $state = $injector.get('$state');
+      $validator = $injector.get('$validator');
       $scope.posts = posts;
-      return $scope.deletePost = function($event, id) {
+      $scope.deletePost = function($event, id) {
         $event.preventDefault();
         return $app.store.deletePost(id).success(function() {
           $state.go($state.$current, null, {
             reload: true
           });
           return $app.modal.post.hideCreate();
+        });
+      };
+      return $scope.editPost = function($event, id) {
+        var post, x, _i, _len, _ref;
+        $event.preventDefault();
+        _ref = posts.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          x = _ref[_i];
+          if (x.id === id) {
+            post = x;
+          }
+        }
+        return $app.modal.post.show({
+          title: post.title,
+          content: post.content,
+          submitCallback: function(model) {
+            return $validator.validate(model.scope).success(function() {
+              return $app.store.updatePost(id, model.title, model.content).success(function() {
+                $state.go($state.$current, null, {
+                  reload: true
+                });
+                return $app.modal.post.hide();
+              });
+            });
+          }
         });
       };
     }
@@ -63,7 +89,7 @@
           $app = $injector.get('$app');
           $validator = $injector.get('$validator');
           $timeout = $injector.get('$timeout');
-          scope.$on($app.broadcastChannel.showCreatePost, function(self, object) {
+          scope.$on($app.broadcastChannel.showEditPost, function(self, object) {
             scope.title = object.title;
             scope.content = object.content;
             scope.submit = function($event) {
@@ -79,7 +105,7 @@
             });
             return $(element).modal('show');
           });
-          scope.$on($app.broadcastChannel.hideCreatePost, function() {
+          scope.$on($app.broadcastChannel.hideEditPost, function() {
             return $(element).modal('hide');
           });
           return $(element).on('shown.bs.modal', function() {
@@ -166,8 +192,8 @@
       return $rootScope = $injector.get('$rootScope');
     };
     this.broadcastChannel = {
-      showCreatePost: '$showCreatePost',
-      hideCreatePost: '$hideCreatePost',
+      showEditPost: '$showEditPost',
+      hideEditPost: '$hideEditPost',
       showLoginRequired: '$showLoginRequired'
     };
 
@@ -187,7 +213,7 @@
         /*
         Modals about post functions.
          */
-        showCreate: (function(_this) {
+        show: (function(_this) {
           return function(object) {
             if (object == null) {
               object = {};
@@ -199,12 +225,12 @@
                 content: ''
                 submitCallback: ({title: '', content: '', scope: {}})->
              */
-            return $rootScope.$broadcast(_this.broadcastChannel.showCreatePost, object);
+            return $rootScope.$broadcast(_this.broadcastChannel.showEditPost, object);
           };
         })(this),
-        hideCreate: (function(_this) {
+        hide: (function(_this) {
           return function() {
-            return $rootScope.$broadcast(_this.broadcastChannel.hideCreatePost);
+            return $rootScope.$broadcast(_this.broadcastChannel.hideEditPost);
           };
         })(this)
       },
@@ -293,6 +319,18 @@
           return _this.http({
             method: 'delete',
             url: "/posts/" + id
+          });
+        };
+      })(this),
+      updatePost: (function(_this) {
+        return function(id, title, content) {
+          return _this.http({
+            method: 'put',
+            url: "/posts/" + id,
+            data: {
+              title: title,
+              content: content
+            }
           });
         };
       })(this)

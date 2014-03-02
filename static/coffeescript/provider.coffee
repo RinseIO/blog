@@ -26,8 +26,8 @@ angular.module 'app.provider', []
     # public methods
     # -------------------------------------------------------------
     @broadcastChannel =
-        showCreatePost: '$showCreatePost'
-        hideCreatePost: '$hideCreatePost'
+        showEditPost: '$showEditPost'
+        hideEditPost: '$hideEditPost'
         showLoginRequired: '$showLoginRequired'
 
     ###
@@ -46,16 +46,16 @@ angular.module 'app.provider', []
             ###
             Modals about post functions.
             ###
-            showCreate: (object={}) =>
+            show: (object={}) =>
                 ###
                 @params object:
                     title: ''
                     content: ''
                     submitCallback: ({title: '', content: '', scope: {}})->
                 ###
-                $rootScope.$broadcast @broadcastChannel.showCreatePost, object
-            hideCreate: =>
-                $rootScope.$broadcast @broadcastChannel.hideCreatePost
+                $rootScope.$broadcast @broadcastChannel.showEditPost, object
+            hide: =>
+                $rootScope.$broadcast @broadcastChannel.hideEditPost
         loginRequired:
             show: =>
                 $rootScope.$broadcast @broadcastChannel.showLoginRequired
@@ -114,6 +114,13 @@ angular.module 'app.provider', []
             @http
                 method: 'delete'
                 url: "/posts/#{id}"
+        updatePost: (id, title, content) =>
+            @http
+                method: 'put'
+                url: "/posts/#{id}"
+                data:
+                    title: title
+                    content: content
 
     @popMessage =
         error: (status) ->

@@ -18,7 +18,7 @@ angular.module 'app.directive', ['app.controller']
         $timeout = $injector.get '$timeout'
 
         # listen
-        scope.$on $app.broadcastChannel.showCreatePost, (self, object) ->
+        scope.$on $app.broadcastChannel.showEditPost, (self, object) ->
             scope.title = object.title
             scope.content = object.content
             scope.submit = ($event) ->
@@ -29,7 +29,7 @@ angular.module 'app.directive', ['app.controller']
                     scope: scope
             $timeout -> $validator.reset scope
             $(element).modal 'show'
-        scope.$on $app.broadcastChannel.hideCreatePost, ->
+        scope.$on $app.broadcastChannel.hideEditPost, ->
             $(element).modal 'hide'
 
         # element events
