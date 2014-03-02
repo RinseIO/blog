@@ -9,7 +9,6 @@
             <span ng-if="post.deletable">
                 <a ng-click="deletePost($event, post.id)" href="#">Delete</a> |
             </span>
-            {{ post.author.name }} |
             {{ post.create_time|date:'yyyy-MM-dd HH:mm' }}
         </span>
     </div>

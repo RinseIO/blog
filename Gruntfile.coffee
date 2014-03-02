@@ -6,7 +6,7 @@ module.exports = (grunt) ->
         compass:
             source:
                 options:
-                    sassDir: './static/scss'
+                    sassDir: './static/sass'
                     cssDir: './static/css'
                     outputStyle: 'compressed'
 
@@ -17,7 +17,7 @@ module.exports = (grunt) ->
 
         watch:
             compass:
-                files: ['./static/scss/*.scss']
+                files: ['./static/sass/*.sass']
                 tasks: ['compass']
                 options:
                     spawn: no
@@ -33,7 +33,7 @@ module.exports = (grunt) ->
                     stdin: no
                     stdout: yes
                     stderr: yes
-                command: 'python manage.py runserver 0.0.0.0:8000'
+                command: 'python manage.py runserver 0.0.0.0:8000 --insecure'
 
         concurrent:
             dev:
