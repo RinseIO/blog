@@ -2,6 +2,7 @@ from django import http
 from django.template import loader, RequestContext, Context
 from django.template.response import TemplateResponse
 from application.models import *
+from application.exceptions import Http400
 
 
 # -----------------------------------------------
@@ -15,12 +16,19 @@ def base_view(request):
 # post views
 # -----------------------------------------------
 def get_posts(request):
-    import logging
-    posts = PostModel.view('posts/all')
-    logging.error(posts.__dict__)
-    for post in posts.all():
-        logging.error('title: %s' % post.title)
-    return JsonResponse({})
+    model = request.GET.dict()
+    try:
+        index = int(model.get('index', '0'))
+    except:
+        raise Http400
+    size = 10
+
+    total = PostModel.view('posts/all').count()
+    posts = PostModel.view('posts/all_sorted_create_time',
+                           descending=True,
+                           limit=size,
+                           skip=index * size).all()
+    return JsonResponse(PageList(index, size, total, posts))
 
 def add_post(request):
     model = json.loads(request.body)

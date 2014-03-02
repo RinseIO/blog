@@ -1,2 +1,2 @@
 (doc) ->
-    emit doc.create_time, doc
+    emit null, doc
