@@ -1,2 +1,2 @@
 (doc) ->
-    emit null, doc
+    emit doc._id, doc

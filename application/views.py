@@ -16,6 +16,11 @@ def base_view(request):
 # post views
 # -----------------------------------------------
 def get_posts(request):
+    """
+    Get posts.
+    :param request.GET:
+        index: The page index.
+    """
     model = request.GET.dict()
     try:
         index = int(model.get('index', '0'))
@@ -24,19 +29,43 @@ def get_posts(request):
     size = 10
 
     total = PostModel.view('posts/all').count()
-    posts = PostModel.view('posts/all_sorted_create_time',
-                           descending=True,
-                           limit=size,
-                           skip=index * size).all()
+    posts = PostModel.view(
+        'posts/all_sorted_create_time',
+        descending=True,
+        limit=size,
+        skip=index * size
+    ).all()
     return JsonResponse(PageList(index, size, total, posts))
 
 def add_post(request):
+    """
+    Add a post.
+    :param request.body:
+        It should be json.
+        title: The post title.
+        content The post content.
+    :return: JsonResponse(PostModel)
+    """
     model = json.loads(request.body)
     post = PostModel()
     post.title = model.get('title')
     post.content = model.get('content')
     post.save()
     return JsonResponse(post.dict())
+
+def delete_post(request, post_id):
+    """
+    Delete the post.
+    :param post_id: The post id.
+    """
+    view = PostModel.view(
+        'posts/all',
+        key=post_id
+    )
+    post = view.first()
+    post.delete()
+
+    return HttpResponse(status=200)
 
 
 # -----------------------------------------------
