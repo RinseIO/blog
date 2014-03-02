@@ -5,18 +5,18 @@
     font-family: 'EngraversMT';
     font-style: normal;
     font-weight: normal;
-    src: local('Engravers MT'), local('EngraversMT'), url('/font/engraversmt.ttf');
+    src: local('Engravers MT'), local('EngraversMT'), url('/static/font/engraversmt.ttf');
 }
 @font-face {
     font-family: 'Optima';
     font-style: normal;
     font-weight: normal;
-    src: local('Optima'), url('/font/optima.ttf');
+    src: local('Optima'), url('/static/font/optima.ttf');
 }
 
 body
 {
-    background: url(/image/template/whitey.png);
+    background: url(/static/image/template/whitey.png);
 }
 .warning
 {
