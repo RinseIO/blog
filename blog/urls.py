@@ -1,6 +1,6 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 from application.views import *
-from application.exceptions import *
+from application.exceptions import ApplicationException, permission_denied, page_not_found, server_error, method_not_allowed
 
 
 # error handlers
@@ -16,7 +16,7 @@ def dispatch(**dispatches):
         try:
             return handler(request, *args, **kwargs)
         except ApplicationException as e:
-            return e.view(request, *args, **kwargs)
+            return e.view(request)
     return wraps
 def api_dispatch(**dispatches):
     def wraps(request, *args, **kwargs):
@@ -27,13 +27,24 @@ def api_dispatch(**dispatches):
         try:
             return handler(request, *args, **kwargs)
         except ApplicationException as e:
-            return e.view(request, *args, **kwargs)
+            return e.view(request)
     return wraps
 
 
 # routers
 urlpatterns = patterns('',
-    url(r'^$', dispatch(GET=base_view)),
-    url(r'^posts$', api_dispatch(GET=get_posts, POST=add_post)),
-    url(r'^posts/(?P<post_id>[a-f, 0-9]{32})$', api_dispatch(DELETE=delete_post)),
+    # /
+    url(r'^$', dispatch(
+        GET=base_view
+    )),
+    # /posts
+    url(r'^posts$', api_dispatch(
+        GET=get_posts,
+        POST=add_post
+    )),
+    # /posts/<post_id>
+    url(r'^posts/(?P<post_id>[a-f, 0-9]{32})$', api_dispatch(
+        DELETE=delete_post,
+        PUT=update_post
+    )),
 )
