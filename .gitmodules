@@ -19,3 +19,6 @@
 [submodule "submodules/django"]
 	path = submodules/django
 	url = https://github.com/django/django.git
+[submodule "submodules/redis-py"]
+	path = submodules/redis-py
+	url = https://github.com/andymccurdy/redis-py.git
